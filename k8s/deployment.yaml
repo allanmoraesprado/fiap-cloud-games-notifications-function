@@ -1,4 +1,4 @@
-# Notifications Function on local Kubernetes (Phase 3 / P3-M7). Runs the image built from
+# Notifications Function on local Kubernetes (Phase 3). Runs the image built from
 # this repository's Dockerfile (official Azure Functions isolated .NET 8 base). Kafka-triggered
 # only: no Service and no exposed port; the Functions host listens on 80 inside the pod, which
 # the probes use as a liveness/readiness signal. One replica (single-partition topics).

@@ -21,9 +21,9 @@ For the full system runbook see **`fiap-cloud-games-orchestration`**.
 
 Both functions share the consumer group `notifications-function`, distinct from CatalogAPI's
 `catalog-service`, so `fcg.payments.processed` **fans out** to both. Event contracts:
-`fiap-cloud-games-orchestration/contracts/README.md` (mirrored in `Contracts/`).
+`fiap-cloud-games-orchestration/contracts/README.md` (local copies in `Contracts/`).
 
-### Behaviour (validated in the P3-M0 spike)
+### Behaviour
 
 - The Kafka extension delivers a JSON **envelope** (`Offset`, `Partition`, `Topic`, `Timestamp`,
   `Value`, `Key`, `Headers`); the event JSON is the string in `Value`. Parsing is two-step

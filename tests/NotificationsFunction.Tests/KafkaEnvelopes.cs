@@ -2,7 +2,7 @@ using System.Text.Json;
 
 namespace NotificationsFunction.Tests;
 
-// Builds the JSON envelope the Kafka extension delivers to the worker (shape validated in P3-M0).
+// Builds the JSON envelope the Kafka extension delivers to the worker.
 internal static class KafkaEnvelopes
 {
     public static string Wrap(string value, long offset = 0, string? key = null, string topic = "test-topic") =>

@@ -11,7 +11,7 @@ COPY src/ src/
 RUN dotnet publish src/NotificationsFunction/NotificationsFunction.csproj -c Release -o /home/site/wwwroot /p:UseAppHost=false
 
 # ---------- runtime stage: official Azure Functions host image (isolated worker, .NET 8) ----------
-# Validated in the P3-M0 spike. Used for the Docker Compose profile and local Kubernetes; the main
+# Used for the Docker Compose service and local Kubernetes; the main
 # development path is `func start` on the host. Kafka__* settings are injected at runtime.
 FROM mcr.microsoft.com/azure-functions/dotnet-isolated:4-dotnet-isolated8.0 AS final
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \

@@ -19,7 +19,7 @@ public class UserCreatedNotification
     }
 
     // Broker, topic and consumer group come from the Kafka__* app settings (environment variables),
-    // referenced with ':' inside the attribute ('%Kafka__X%' does not resolve; validated in P3-M0).
+    // referenced with ':' inside the attribute ('%Kafka__X%' does not resolve).
     // Protocol Plaintext is local-only; a cloud broker would use SaslSsl + credentials (documented, not implemented).
     [Function(nameof(UserCreatedNotification))]
     public void Run(
