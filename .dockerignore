@@ -1,0 +1,11 @@
+**/bin/
+**/obj/
+**/.vs/
+.git/
+.gitignore
+tests/
+*.md
+**/local.settings.json
+**/local.settings.example.json
+Dockerfile
+.dockerignore

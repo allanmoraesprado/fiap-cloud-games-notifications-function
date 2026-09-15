@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "Kafka__BootstrapServers": "localhost:29092",
+    "Kafka__UserCreatedTopic": "fcg.users.created",
+    "Kafka__PaymentProcessedTopic": "fcg.payments.processed",
+    "Kafka__ConsumerGroup": "notifications-function"
+  }
+}
