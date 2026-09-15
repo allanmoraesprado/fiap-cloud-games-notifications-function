@@ -117,7 +117,17 @@ docker run --rm --network fcg-orchestration_default \
 ```
 
 The image is built from the official `mcr.microsoft.com/azure-functions/dotnet-isolated:4-dotnet-isolated8.0`
-base. Compose wiring and Kubernetes manifests are added in later Phase 3 milestones.
+base.
+
+- **Docker Compose:** the orchestration repo runs this image as the `notifications-function`
+  service (main Phase 3 notification path); its logs are centralized in Loki/Grafana.
+- **Kubernetes (local):** `k8s/` holds a ConfigMap (`Kafka__*` topics, consumer group, storage
+  placeholder) and a Deployment (one replica, no Service, TCP probes on the Functions host port).
+  The orchestration scripts build the image as `fcg-notifications-function:local` and apply
+  this folder after the APIs. Check it with `kubectl -n fcg logs deploy/notifications-function`.
+
+Never run `func start` and the container/pod at the same time against the same Kafka: they
+share the consumer group `notifications-function`.
 
 ---
 

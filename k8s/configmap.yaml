@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notifications-function-config
+  namespace: fcg
+data:
+  # Function-specific config. Kafka bootstrap (kafka:9092) comes from the shared
+  # orchestration ConfigMap `fcg-config`. Same Kafka__* names as the other services;
+  # the trigger attributes read them as %Kafka:Name%.
+  Kafka__UserCreatedTopic: "fcg.users.created"
+  Kafka__PaymentProcessedTopic: "fcg.payments.processed"
+  Kafka__ConsumerGroup: "notifications-function"
+  # Not used by the Kafka trigger; local placeholder expected by the Functions host.
+  AzureWebJobsStorage: "UseDevelopmentStorage=true"

@@ -1,0 +1,43 @@
+# Notifications Function on local Kubernetes (Phase 3 / P3-M7). Runs the image built from
+# this repository's Dockerfile (official Azure Functions isolated .NET 8 base). Kafka-triggered
+# only: no Service and no exposed port; the Functions host listens on 80 inside the pod, which
+# the probes use as a liveness/readiness signal. One replica (single-partition topics).
+# Scale-to-zero (KEDA Kafka scaler) is documented as a future improvement, not implemented.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notifications-function
+  namespace: fcg
+  labels:
+    app: notifications-function
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notifications-function
+  template:
+    metadata:
+      labels:
+        app: notifications-function
+    spec:
+      containers:
+        - name: notifications-function
+          image: fcg-notifications-function:local
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: fcg-config                        # shared: Kafka__BootstrapServers
+            - configMapRef:
+                name: notifications-function-config     # topics, consumer group, storage placeholder
+          readinessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 20
