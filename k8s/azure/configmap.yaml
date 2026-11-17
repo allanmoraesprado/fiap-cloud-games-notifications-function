@@ -1,0 +1,14 @@
+# Notifications Function on AKS: Kafka topics and consumer group. The broker address comes from
+# the shared fcg-config ConfigMap (orchestration repository). The function needs no credential
+# (in-cluster Kafka, no storage-backed triggers).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notifications-function-config
+  namespace: fcg
+data:
+  Kafka__UserCreatedTopic: "fcg.users.created"
+  Kafka__PaymentProcessedTopic: "fcg.payments.processed"
+  Kafka__ConsumerGroup: "notifications-function"
+  # Not used by the Kafka trigger; placeholder expected by the Functions host settings.
+  AzureWebJobsStorage: "UseDevelopmentStorage=true"

@@ -14,6 +14,12 @@ RUN dotnet publish src/NotificationsFunction/NotificationsFunction.csproj -c Rel
 # Used for the Docker Compose service and local Kubernetes; the main
 # development path is `func start` on the host. Kafka__* settings are injected at runtime.
 FROM mcr.microsoft.com/azure-functions/dotnet-isolated:4-dotnet-isolated8.0 AS final
+# Commit SHA of the build (set by CI: --build-arg APP_VERSION=<sha>); exposed to the app and as
+# OCI metadata so a running pod can be traced back to its commit.
+ARG APP_VERSION=dev
+ENV APP_VERSION=$APP_VERSION
+LABEL org.opencontainers.image.revision=$APP_VERSION \
+      org.opencontainers.image.source="https://github.com/allanmoraesprado/fiap-cloud-games-notifications-function"
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     AzureFunctionsJobHost__Logging__Console__IsEnabled=true \
     FUNCTIONS_WORKER_RUNTIME=dotnet-isolated

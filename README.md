@@ -145,3 +145,17 @@ this academic delivery stays **local-first**. What a real deployment would need:
 | Scale-to-zero on Kubernetes | KEDA Kafka scaler |
 
 None of the above is configured; no cloud resources or real secrets exist in this repository.
+
+---
+
+## Cloud deployment (Phase 4: AKS + CI/CD)
+
+- **Manifests**: `k8s/azure/` (Deployment, ConfigMap) rendered by the pipeline with the ACR
+  login server and the **commit SHA** as image tag. `k8s/` keeps the local (Docker Desktop) manifests.
+- **Pipeline**: `.github/workflows/ci-cd.yml` calls the shared workflow of the orchestration repository
+  (`dotnet-service.yml`): CI on every push/PR (build, tests, Docker build, Trivy scan); CD on `main` only
+  (OIDC login to Azure, push to the private ACR, rolling update on AKS with automatic rollback, smoke test
+  through the public Kong gateway).
+- The function needs no credential (in-cluster Kafka); it runs as one replica (single-partition topics) and has no Service.
+
+Details: orchestration repository, `docs/phase4/` (CICD.md, KEYVAULT.md, PROVISIONING.md).
